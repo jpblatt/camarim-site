@@ -1,0 +1,169 @@
+@import "tailwindcss" source(".");
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/quicksand";
+@import "@fontsource/allura/400";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: "Quicksand Variable", ui-rounded, system-ui, sans-serif;
+  --font-script: "Allura", cursive;
+
+  /* cores da marca, amostradas nas artes do Instagram */
+  --color-wine-deep: var(--wine-deep);
+  --color-wine: var(--wine);
+  --color-berry: var(--berry);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-blush: var(--blush);
+  --color-rose: var(--rose);
+
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/*
+ * Camarim: vinho das artes + dourado só na cursiva e nos fios.
+ * Seções claras (blush) para leitura; seções vinho para impacto.
+ * Contraste: branco/#4d071d 15.4 · dourado/#4d071d 5.9 · framboesa/blush 7.3 · dourado/blush 2.4 (NUNCA como texto)
+ */
+:root {
+  --wine-deep: #4d071d;
+  --wine: #6e0c2b;
+  --berry: #a01038;
+  --gold: #c89856;
+  --gold-soft: #d9b77a;
+  --blush: #fbf3f2;
+  --rose: #f2d9df;
+
+  --background: var(--blush);
+  --foreground: #3a0616;
+  --card: #ffffff;
+  --card-foreground: #3a0616;
+  --popover: #ffffff;
+  --popover-foreground: #3a0616;
+  --primary: var(--berry);
+  --primary-foreground: #ffffff;
+  --secondary: var(--rose);
+  --secondary-foreground: var(--wine-deep);
+  --muted: #f3e6e6;
+  --muted-foreground: #74505a; /* 6.1:1 sobre blush */
+  --accent: var(--rose);
+  --accent-foreground: var(--wine-deep);
+  --destructive: #b42318;
+  --border: color-mix(in oklab, var(--wine) 16%, transparent);
+  --input: color-mix(in oklab, var(--wine) 22%, transparent);
+  --ring: var(--berry);
+  --radius: 0.9rem;
+  --gutter: clamp(16px, 4.5vw, 64px);
+  --ease-silk: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* seções vinho: troca os tokens dentro delas */
+@layer components {
+.theme-wine {
+  --background: var(--wine-deep);
+  --foreground: #ffffff;
+  --muted-foreground: #e6c9d0; /* 10:1 sobre vinho profundo */
+  --border: rgb(255 255 255 / 0.22);
+  --primary: var(--gold);
+  --primary-foreground: var(--wine-deep);
+  --ring: var(--gold);
+  background-color: var(--wine-deep);
+  color: var(--foreground);
+}
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    overflow-x: clip;
+    font-weight: 500;
+  }
+  ::selection {
+    background: var(--berry);
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+@utility px-gutter {
+  padding-inline: var(--gutter);
+}
+@utility font-script {
+  font-family: var(--font-script);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* dourado chapado com degradê bem sutil, só na cursiva */
+@utility text-gold {
+  color: var(--gold);
+  background: linear-gradient(100deg, #b98a4a 0%, #d9b77a 45%, #c89856 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* foto ao fundo bem escurecida e tingida de vinho, como nas artes */
+@layer components {
+.wine-glow {
+  background:
+    radial-gradient(120% 80% at 80% 10%, color-mix(in oklab, var(--berry) 55%, transparent) 0%, transparent 60%),
+    radial-gradient(90% 70% at 0% 100%, color-mix(in oklab, var(--wine) 80%, transparent) 0%, transparent 70%),
+    var(--wine-deep);
+}
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
